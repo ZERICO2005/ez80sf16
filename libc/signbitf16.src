@@ -1,0 +1,12 @@
+	assume	adl=1
+
+	section	.text
+	
+	public	__signbitf16
+	
+__signbitf16:
+	pop	hl, af
+	push	af
+	rla
+	sbc	a, a
+	jp	(hl)

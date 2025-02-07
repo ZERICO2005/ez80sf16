@@ -1,0 +1,13 @@
+	assume	adl=1
+
+	section	.text
+	
+	public	_copysignf16
+	
+_copysignf16:
+	pop	bc, hl, af
+	push	af, hl, bc
+	rla
+	rl	h
+	rrc	h
+	ret

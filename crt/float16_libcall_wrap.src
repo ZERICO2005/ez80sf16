@@ -1,0 +1,124 @@
+	assume	adl=1
+
+	section	.text
+
+	public	_C_hneg, _C_hcmp, _C_hadd, _C_hsub, _C_hmul, _C_hdiv, _C_hrem
+	public	_C_htoi, _C_htou, _C_htof, _C_htod
+	public	_C_itoh, _C_utoh, _C_ftoh, _C_dtoh
+
+; Allows for C functions to wrap libcalls for development purposes
+; Do NOT perform any optimizations or inlining here
+; Pass arguments in their original order, even if a function is commutative
+
+;-------------------------------------------------------------------------------
+; Primatives
+;-------------------------------------------------------------------------------
+
+_C_hneg:
+	pop	bc
+	ex	(sp), hl
+	push	bc
+	call	__hneg
+	ret
+
+_C_hcmp:
+	pop	bc, hl, de
+	push	de, hl, bc
+	call	__hcmp
+	ret
+
+_C_hadd:
+	pop	bc, hl, de
+	push	de, hl, bc
+	call	__hadd
+	ret
+
+_C_hsub:
+	pop	bc, hl, de
+	push	de, hl, bc
+	call	__hsub
+	ret
+
+_C_hmul:
+	pop	bc, hl, de
+	push	de, hl, bc
+	call	__hmul
+	ret
+
+_C_hdiv:
+	pop	bc, hl, de
+	push	de, hl, bc
+	call	__hdiv
+	ret
+
+_C_hrem:
+	pop	bc, hl, de
+	push	de, hl, bc
+	call	__hrem
+	ret
+
+;-------------------------------------------------------------------------------
+; Convert from h
+;-------------------------------------------------------------------------------
+
+_C_htoi:
+	pop	bc
+	ex	(sp), hl
+	push	bc
+	call	__htoi
+	ret
+
+_C_htou:
+	pop	bc
+	ex	(sp), hl
+	push	bc
+	call	__htou
+	ret
+
+_C_htof:
+	pop	bc
+	ex	(sp), hl
+	push	bc
+	call	__htof
+	ret
+
+_C_htod:
+	pop	bc
+	ex	(sp), hl
+	push	bc
+	call	__htod
+	ret
+
+;-------------------------------------------------------------------------------
+; Convert to h
+;-------------------------------------------------------------------------------
+
+_C_itoh:
+	pop	bc
+	ex	(sp), hl
+	push	bc
+	call	__itoh
+	ret
+
+_C_utoh:
+	pop	bc
+	ex	(sp), hl
+	push	bc
+	call	__utoh
+	ret
+
+_C_ftoh:
+	pop	bc, hl, de
+	push	de, hl, bc
+	call	__ftoh
+	ret
+
+_C_dtoh:
+	pop	iy, hl, de, bc
+	push	bc, de, hl, iy
+	call	__dtoh
+	ret
+
+	extern	__hneg, __hcmp, __hadd, __hsub, __hmul, __hdiv, __hrem
+	extern	__htoi, __htou, __htof, __htod
+	extern	__itoh, __utoh, __ftoh, __dtoh

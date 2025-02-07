@@ -1,0 +1,14 @@
+	assume	adl=1
+
+	section	.text
+
+	public	__isfinitef16
+
+__isfinitef16:
+	pop	hl, af
+	push	af
+	add	a, a
+	add	a, $08	; attempts to overflow the exponent
+	sbc	a, a
+	inc	a
+	jp	(hl)

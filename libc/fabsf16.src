@@ -1,0 +1,12 @@
+	assume	adl=1
+
+	section	.text
+	
+	public	_fabsf16
+	
+_fabsf16:
+	pop	bc
+	ex	(sp), hl
+	push	bc
+	res	7, h
+	ret

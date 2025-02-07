@@ -1,0 +1,17 @@
+	assume	adl=1
+
+	section	.text
+	
+	public	__hcmp
+
+__hcmp:
+	push	de, hl, bc, af, iy
+	push	de, hl
+	call	__hcmp_c
+	; Set the comparison flags
+	pop	af, af, iy, af
+	add	hl, de
+	or	a, a
+	sbc	hl, de
+	pop	bc, hl, de
+	ret

@@ -1,0 +1,19 @@
+	assume	adl=1
+
+	section	.text
+
+	public	_truncf16
+
+; __fp16_ABI truncf16(__fp16_ABI)
+_truncf16:
+	ld	hl, 4
+	add	hl, sp
+	bit	7, (hl)	; signbit(x)
+	jq	z, __truncf16_c	; positive input
+	; negative input
+	res	7, (hl)	; x = fabsf16(x)
+	call	__truncf16_c
+	set 7, b	; x = -x
+	ret
+
+	extern	__truncf16_c

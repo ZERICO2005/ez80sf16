@@ -1,0 +1,15 @@
+	assume	adl=1
+
+	section	.text
+
+	public	_ilogbf16
+
+; int ilogbf16(__fp16_ABI)
+_ilogbf16:
+	; x = fabsf16(x)
+	ld	hl, 4
+	add	hl, sp
+	res	7, (hl)
+	jq	__ilogbf16_c
+
+	extern	__ilogbf16_c

@@ -1,0 +1,14 @@
+	assume	adl=1
+
+	section	.text
+
+	public	__isnormalf16
+
+__isnormalf16:
+	pop	hl, af
+	push	af
+	add	a, a	; clear the signbit
+	add	a, $F8
+	sub	a, $F0
+	sbc	a, a
+	jp	(hl)

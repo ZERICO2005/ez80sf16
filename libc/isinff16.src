@@ -1,0 +1,18 @@
+	assume	adl=1
+
+	section	.text
+
+	public	__isinff16
+
+__isinff16:
+	pop	bc
+	ex	(sp), hl
+	push	bc
+	ld	a, h
+	add	a, a
+	xor	a, $F8
+	or	a, l
+	ld	a, 0
+	ret	nz
+	inc	a
+	ret

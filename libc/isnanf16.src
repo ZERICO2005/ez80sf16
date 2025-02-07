@@ -1,0 +1,15 @@
+	assume	adl=1
+
+	section	.text
+
+	public	__isnanf16
+
+__isnanf16:
+	pop	bc
+	ex	(sp), hl
+	push	bc
+	add	hl, hl	; clear the signbit
+	ld	de, $07FF
+	add.s	hl, de	; NaN.u16 > inf.u16 > finite.u16
+	sbc	a, a
+	ret

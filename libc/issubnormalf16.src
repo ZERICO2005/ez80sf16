@@ -1,0 +1,17 @@
+	assume	adl=1
+
+	section	.text
+
+	public	__issubnormalf16
+
+__issubnormalf16:
+	pop	bc
+	ex	(sp), hl
+	push	bc
+	xor	a, a
+	adc.s	hl, hl
+	ret	z	; zero is not subnormal
+	add	a, h
+	sub	a, $08	; underflows an exponent of zero
+	sbc	a, a
+	ret

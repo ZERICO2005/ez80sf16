@@ -1,0 +1,35 @@
+	assume	adl=1
+
+	section	.text
+	
+	public	__fpclassifyf16
+
+; FP_ZERO      := 0
+; FP_INFINITE  := 1
+; FP_SUBNORMAL := 2
+; FP_NAN       := 3
+; FP_NORMAL    := 4
+
+; int _fpclassifyf16(__fp16_ABI)
+__fpclassifyf16:
+	pop	bc
+	ex	(sp), hl
+	push	bc
+	ex	de, hl
+	ld	a, e
+	and	a, $7C
+	sbc	hl, hl
+	or	a, d
+	jr	z, .mant_zero	; normal, zero, or inf
+	ld	l, 2
+	; normal, subnormal, or NaN
+.mant_zero:
+	ld	a, e
+	add	a, a	; clear the signbit
+	and	a, $F8
+	ret	z	; subnormal or zero
+	inc	hl
+	add	$08
+	ret	c	; inf or NaN
+	ld	l, 4
+	ret	; normal

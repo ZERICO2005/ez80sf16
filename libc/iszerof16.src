@@ -1,0 +1,15 @@
+	assume	adl=1
+
+	section	.text
+
+	public	__iszerof16
+
+__iszerof16:
+	pop	bc
+	ex	(sp), hl
+	push	bc
+	xor	a, a
+	adc.s	hl, hl
+	ret	nz
+	inc	a
+	ret
