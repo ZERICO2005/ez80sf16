@@ -8,7 +8,6 @@ __isfinitef16:
 	pop	hl, af
 	push	af
 	add	a, a
-	add	a, $08	; attempts to overflow the exponent
+	sub	a, $F8	; attempts to underflow the exponent
 	sbc	a, a
-	inc	a
 	jp	(hl)

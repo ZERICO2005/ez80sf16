@@ -32,7 +32,7 @@ __fp16_ABI nextafterf16(__fp16_ABI x, __fp16_ABI y) {
             return y;
         }
         feraiseexcept(FE_INEXACT | FE_UNDERFLOW);
-        F32_pun ret;
+        F16_pun ret;
         ret.bin = _signbitf16(y) ? Float16_neg_subnorm_min : Float16_pos_subnorm_min;
         return ret.flt;
     }

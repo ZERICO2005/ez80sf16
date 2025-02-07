@@ -27,7 +27,8 @@ Ideally, `__fp16` should be able to support the following:
 Additional rounding modes and signalling NaNs are not needed.
 
 For `__fp16` to be merged into the toolchain, it should support the following functions:
-- hneg, hcmp, hadd, hsub, hmul, fmaf16
+- hneg, hcmp, hcmpo, hcmpu
+- hadd, hsub, hmul, fmaf16
 - hdiv, hrem, fmodf16, sqrtf16
-- htof, htod, htoi, htou
+- htof, htod, htoi, htou, htoll, htoull
 - ftoh, dtoh, itoh, utoh, lltoh, ulltoh

@@ -21,8 +21,8 @@ __fp16_ABI modff16(__fp16_ABI x, __fp16_ABI *integral_part) {
         case FP_SUBNORMAL:
         case FP_NORMAL:
     }
-    long double trunc_x = truncf16(x);
-    *integral_part = x;
+    __fp16_ABI trunc_x = truncf16(x);
+    *integral_part = trunc_x;
     // result will be exact, and should not raise exceptions
     return C_hsub(x, trunc_x);
 }

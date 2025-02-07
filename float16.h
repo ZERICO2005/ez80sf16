@@ -19,8 +19,10 @@ __fp16_ABI C_hmul(__fp16_ABI, __fp16_ABI);
 __fp16_ABI C_hdiv(__fp16_ABI, __fp16_ABI);
 __fp16_ABI C_hrem(__fp16_ABI, __fp16_ABI);
 
-/* -1 LESS, 0 EQUAL, 1 GREATER, 1 UNORDERED */
+/* -1 LESS, 0 EQUAL, 1 GREATER */
 int C_hcmp(__fp16_ABI, __fp16_ABI);
+int C_hcmpo(__fp16_ABI, __fp16_ABI);
+int C_hcmpu(__fp16_ABI, __fp16_ABI);
 
 int C_htoi(__fp16_ABI);
 unsigned int C_htou(__fp16_ABI);

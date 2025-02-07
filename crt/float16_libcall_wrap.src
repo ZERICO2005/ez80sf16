@@ -1,11 +1,5 @@
 	assume	adl=1
 
-	section	.text
-
-	public	_C_hneg, _C_hcmp, _C_hadd, _C_hsub, _C_hmul, _C_hdiv, _C_hrem
-	public	_C_htoi, _C_htou, _C_htof, _C_htod
-	public	_C_itoh, _C_utoh, _C_ftoh, _C_dtoh
-
 ; Allows for C functions to wrap libcalls for development purposes
 ; Do NOT perform any optimizations or inlining here
 ; Pass arguments in their original order, even if a function is commutative
@@ -14,6 +8,8 @@
 ; Primatives
 ;-------------------------------------------------------------------------------
 
+	section	.text
+	public	_C_hneg
 _C_hneg:
 	pop	bc
 	ex	(sp), hl
@@ -21,36 +17,94 @@ _C_hneg:
 	call	__hneg
 	ret
 
+	section	.text
+	public	_C_hcmp
 _C_hcmp:
 	pop	bc, hl, de
 	push	de, hl, bc
+	or	a, a
+	sbc	hl, hl
 	call	__hcmp
+	jp	m, .cmp_lt
+	jr	nz, .cmp_neq
+	ret
+.cmp_lt:
+	dec	hl
+	ret
+.cmp_neq:
+	inc	hl
 	ret
 
+	section	.text
+	public	_C_hcmpo
+_C_hcmpo:
+	pop	bc, hl, de
+	push	de, hl, bc
+	or	a, a
+	sbc	hl, hl
+	call	__hcmpo
+	jp	m, .cmp_lt
+	jr	nz, .cmp_neq
+	ret
+.cmp_lt:
+	dec	hl
+	ret
+.cmp_neq:
+	inc	hl
+	ret
+
+	section	.text
+	public	_C_hcmpu
+_C_hcmpu:
+	pop	bc, hl, de
+	push	de, hl, bc
+	or	a, a
+	sbc	hl, hl
+	call	__hcmpu
+	jp	m, .cmp_lt
+	jr	nz, .cmp_neq
+	ret
+.cmp_lt:
+	dec	hl
+	ret
+.cmp_neq:
+	inc	hl
+	ret
+
+	section	.text
+	public	_C_hadd
 _C_hadd:
 	pop	bc, hl, de
 	push	de, hl, bc
 	call	__hadd
 	ret
 
+	section	.text
+	public	_C_hsub
 _C_hsub:
 	pop	bc, hl, de
 	push	de, hl, bc
 	call	__hsub
 	ret
 
+	section	.text
+	public	_C_hmul
 _C_hmul:
 	pop	bc, hl, de
 	push	de, hl, bc
 	call	__hmul
 	ret
 
+	section	.text
+	public	_C_hdiv
 _C_hdiv:
 	pop	bc, hl, de
 	push	de, hl, bc
 	call	__hdiv
 	ret
 
+	section	.text
+	public	_C_hrem
 _C_hrem:
 	pop	bc, hl, de
 	push	de, hl, bc
@@ -58,23 +112,11 @@ _C_hrem:
 	ret
 
 ;-------------------------------------------------------------------------------
-; Convert from h
+; Convert from __fp16
 ;-------------------------------------------------------------------------------
 
-_C_htoi:
-	pop	bc
-	ex	(sp), hl
-	push	bc
-	call	__htoi
-	ret
-
-_C_htou:
-	pop	bc
-	ex	(sp), hl
-	push	bc
-	call	__htou
-	ret
-
+	section	.text
+	public	_C_htof
 _C_htof:
 	pop	bc
 	ex	(sp), hl
@@ -82,6 +124,8 @@ _C_htof:
 	call	__htof
 	ret
 
+	section	.text
+	public	_C_htod
 _C_htod:
 	pop	bc
 	ex	(sp), hl
@@ -89,10 +133,64 @@ _C_htod:
 	call	__htod
 	ret
 
+	section	.text
+	public	_C_htoi
+_C_htoi:
+	pop	bc
+	ex	(sp), hl
+	push	bc
+	call	__htoi
+	ret
+
+	section	.text
+	public	_C_htou
+_C_htou:
+	pop	bc
+	ex	(sp), hl
+	push	bc
+	call	__htou
+	ret
+
+	section	.text
+	public	_C_htoll
+_C_htoll:
+	pop	bc
+	ex	(sp), hl
+	push	bc
+	call	__htoll
+	ret
+
+	section	.text
+	public	_C_htoull
+_C_htoull:
+	pop	bc
+	ex	(sp), hl
+	push	bc
+	call	__htoull
+	ret
+
 ;-------------------------------------------------------------------------------
-; Convert to h
+; Convert to __fp16
 ;-------------------------------------------------------------------------------
 
+	section	.text
+	public	_C_ftoh
+_C_ftoh:
+	pop	bc, hl, de
+	push	de, hl, bc
+	call	__ftoh
+	ret
+
+	section	.text
+	public	_C_dtoh
+_C_dtoh:
+	pop	iy, hl, de, bc
+	push	bc, de, hl, iy
+	call	__dtoh
+	ret
+
+	section	.text
+	public	_C_itoh
 _C_itoh:
 	pop	bc
 	ex	(sp), hl
@@ -100,6 +198,8 @@ _C_itoh:
 	call	__itoh
 	ret
 
+	section	.text
+	public	_C_utoh
 _C_utoh:
 	pop	bc
 	ex	(sp), hl
@@ -107,18 +207,25 @@ _C_utoh:
 	call	__utoh
 	ret
 
-_C_ftoh:
-	pop	bc, hl, de
-	push	de, hl, bc
-	call	__ftoh
-	ret
-
-_C_dtoh:
+	section	.text
+	public	_C_lltoh
+_C_lltoh:
 	pop	iy, hl, de, bc
 	push	bc, de, hl, iy
-	call	__dtoh
+	call	__lltoh
 	ret
 
-	extern	__hneg, __hcmp, __hadd, __hsub, __hmul, __hdiv, __hrem
-	extern	__htoi, __htou, __htof, __htod
-	extern	__itoh, __utoh, __ftoh, __dtoh
+	section	.text
+	public	_C_ulltoh
+_C_ulltoh:
+	pop	iy, hl, de, bc
+	push	bc, de, hl, iy
+	call	__ulltoh
+	ret
+
+;-------------------------------------------------------------------------------
+
+	extern	__hneg, __hcmp, __hcmpo, __hcmpu
+	extern	__hadd, __hsub, __hmul, __hdiv, __hrem
+	extern	__htof, __htod, __htoi, __htou, __htoll, __htoull
+	extern	__ftoh, __dtoh, __itoh, __utoh, __lltoh, __ulltoh
